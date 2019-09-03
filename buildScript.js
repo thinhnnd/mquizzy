@@ -7,5 +7,6 @@ if (fs.existsSync("./build")) {
 }
 
 childProcess.execSync("react-scripts build", { stdio: "inherit" });
+childProcess.execSync("cd server && npm run build");
 
-fse.moveSync("./build", "./server/build", { overwrite: true });
+fse.moveSync("./build", "./server/build-frontend", { overwrite: true });
