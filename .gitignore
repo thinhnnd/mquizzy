@@ -5,7 +5,7 @@
 
 # testing
 /coverage
-/server/test
+/server/test*
 
 # misc
 .DS_Store
@@ -26,6 +26,11 @@ yarn-error.log*
 /build
 
 
+#development
+/server/dist
+
 # dependencies
 /node_modules
 /server/node_modules
+
+

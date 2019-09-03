@@ -19,6 +19,7 @@
     "react-dom": "^16.8.4",
     "react-router-dom": "^4.3.1",
     "react-scripts": "^3.0.1",
+    "serve": "^11.1.0",
     "typescript": "^3.6.2"
   },
   "eslintConfig": {
@@ -30,7 +31,7 @@
   },
   "scripts": {
     "start": "concurrently \"yarn start-frontend || npm run start-frontend\" \"yarn start-backend || npm run start-backend\"",
-    "start-backend": "nodemon server/server.js",
+    "start-backend": "cd server && npm run start:dev",
     "start-frontend": "react-scripts start",
     "build": "node ./buildScript",
     "test": "react-scripts test",
