@@ -22,12 +22,12 @@ yarn-error.log*
 
 
 # production
-/server/build
+server/build*
 /build
 
 
 #development
-/server/dist
+/server/dist*
 
 # dependencies
 /node_modules
