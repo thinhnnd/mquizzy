@@ -5,9 +5,16 @@ import { UserLoginDto } from '../Users/DTOs/userLogin.dto';
 import { UnprocessableException } from '../Shared/unprocessable.dto';
 import { User } from "../Users/Interfaces/User.interface";
 import { Injectable, HttpException, NotFoundException } from '@nestjs/common';
+import { JwtService } from '@nestjs/jwt';
+import { JwtPayload } from './jwt-payload.dto';
+
+
 @Injectable()
 export class AuthService {
-    constructor(private readonly userService: UsersService) { }
+    constructor(
+        private readonly userService: UsersService,
+        private readonly jwtService: JwtService
+    ) { }
     public async login(userLogin: UserLoginDto) {
         const { username, email, password } = userLogin;
         const opts = userLogin.username ? { "username": username } : { "email": email }
@@ -45,10 +52,14 @@ export class AuthService {
         const salt = await genSalt(10);
         return await hash(str, salt);
     }
-    private async createToken(): Promise<string> {
-        return
+    public async createToken(user: User): Promise<string> {
+        const payload: JwtPayload = {
+            id: user.id,
+            username: user.username,
+        }
+        return this.jwtService.sign(payload);
     }
-    public async validateUser(payload): Promise<User> {
+    public async validateUser(payload: JwtPayload): Promise<User> {
         return await this.userService.findUserById(payload.id);
     }
 }
