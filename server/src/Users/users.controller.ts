@@ -1,23 +1,27 @@
-import { Controller, Get, Post, Body, Response } from "@nestjs/common";
+import { Controller, Get, Post, Body, Res, Req } from "@nestjs/common";
 import { UserLoginDto } from "./DTOs/userLogin.dto";
-import { UsersServices } from "./users.service";
+import { UsersService } from "./users.service";
+import { SuccessResponse } from "../Shared/success.dto";
+import { Request, Response } from "express";
 @Controller()
 export class UsersController {
-    constructor(private usersService: UsersServices) { };
+    constructor(private usersService: UsersService) { };
     @Get("/users")
-    public async getUser() {
-        return "hello";
+    public async getUser(@Req() req: Request, @Res() res: Response) {
+        const users = await this.usersService.findAllUsers();
+        const payload = new SuccessResponse("All Users", users);
+        res.json(payload);
     }
     @Post("/users")
     public async createUser(user) {
 
     }
     @Post("/users/login")
-    public async login(@Response() res: Response, @Body() userLoginDto: UserLoginDto) {
+    public async login(@Res() res: Response, @Body() userLoginDto: UserLoginDto) {
         try {
             if (userLoginDto) {
                 const { username, password } = userLoginDto;
-                const user = await this.usersService.login(username, password);
+                // const user = await this.usersService.login();
             }
         }
         catch (err) {

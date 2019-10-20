@@ -1,21 +1,11 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { UsersModule } from './Users/users.module';
-import { TypeOrmModule } from '@nestjs/typeorm';
+import { AuthModule } from './Auth/auth.module';
+import { MongooseModule } from '@nestjs/mongoose';
+import CONFIG from './Common/config';
 @Module({
     imports: [
-        TypeOrmModule.forRoot({
-            "type": "mongodb",
-            "host": "localhost",
-            "port": 27017,
-            "database": "mquizzy",
-            "entities": [
-                "build-backend/**/**.entity{.ts,.js}"
-            ]
-        }),
-        UsersModule],
-    // controllers: [AppController],
-    // providers: [AppService],
+        MongooseModule.forRoot(CONFIG.URI, { useNewUrlParser: true, useUnifiedTopology: true }),
+        UsersModule, AuthModule],
 })
 export class AppModule { }
